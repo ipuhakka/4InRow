@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <div id="gameArea"></div>
+    <div id="scoreBoard">
+        <textarea readonly class="board" id="board">Player turn</textarea>
+    </div>
+    <img src="img/0.png" id="p1Img" />
+    <img src="img/0.png" id="p2Img" />
+    <button class="menuB" onclick="newGame()">New Game</button>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <script src="AI.js"></script>
+    <script src="1playerMain.js"></script>
+    <script src="common.js"></script>
+    <script src="gameLogic.js"></script>
+    <script>
+        var p1Score = 0;
+        var p2Score = 0;
+        var columns = 10;
+        var rows = 6;
+        var squares = [];
+        var gameMap = []; //0: not chosen. 1. Player 2.CPU/player 2
+        var player1Turn = true;
+        var locked = false;
+
+        createArea();
+    </script>
+
+</body>
+</html>

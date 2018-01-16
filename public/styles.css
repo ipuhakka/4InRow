@@ -1,0 +1,18 @@
+﻿.square{
+    border:1px black;
+    width:40px;
+    height:40px;
+    margin-right:1px;
+}
+
+.menuB{
+    bottom:0px;
+    left:0px;
+    position:absolute;
+    background-color:aqua;
+}
+
+.board{
+    font-size:20pt;
+    font:bold;
+}
