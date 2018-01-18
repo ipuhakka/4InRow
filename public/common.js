@@ -64,27 +64,26 @@ function markPress(col, row) {
     switchTurn();
 }
 
-function updateScore() {
+function updateScore(result) {
+
+    if (result === 1) {
+        p1Score = p1Score + 1;
+        window.alert("Player 1 won!!");
+    }
+    else if (result === 2) {
+        p2Score = p2Score + 1;
+
+        if (cpu)
+            window.alert("CPU won");
+        else
+            window.alert("Player 2 won!!");
+    }
+
+    locked = true;
 
     if (p1Score < 10)
         document.getElementById('p1Img').src = 'img/' + p1Score + '.png';
 
     if (p2Score < 10)
         document.getElementById('p2Img').src = 'img/' + p2Score + '.png';
-}
-
-function newGame() {
-    squares = [];
-    gameMap = [];
-
-    var myNode = document.getElementById("gameArea"); //empty div
-    while (myNode.firstChild) {
-        myNode.removeChild(myNode.firstChild);
-    }
-    switchTurn();
-    locked = false;
-    createArea(); //start over
-
-    if (!player1Turn)
-        decide();
 }

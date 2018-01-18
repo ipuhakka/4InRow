@@ -14,10 +14,17 @@ function initStartPositions(cell, dir) {
 
 function checkResult(row, col) {
     /* x && y : if -1 then go down, if 0 keep the same and if 1 then go up*/
-    checkVector(row, col, 1, -1);
-    checkVector(row, col, 1, 0);
-    checkVector(row, col, 1, 1);
-    checkVector(row, col, 0, 1);
+    var results = [];
+
+    results.push(checkVector(row, col, 1, -1, gameMap));
+    results.push(checkVector(row, col, 1, 0, gameMap));
+    results.push(checkVector(row, col, 1, 1, gameMap));
+    results.push(checkVector(row, col, 0, 1, gameMap));
+
+    if (results.includes(1))
+        updateScore(1);
+    else if (results.includes(2))
+        updateScore(2);
 
     //check for draw
     if (boardIsFull()) {
@@ -40,7 +47,7 @@ function boardIsFull() {
 
 }
 
-function checkVector(row, col, xDir, yDir) {
+function checkVector(row, col, xDir, yDir, map) {
     //xDir and yDir describe the incline through every step: 0 means no elevation, 1 means up and -1 means down
     var xPos, yPos, nInRow;
     var current = 0;
@@ -53,30 +60,25 @@ function checkVector(row, col, xDir, yDir) {
     //check for exceeding the limitations of the map
     for (var i = 0; i < 9; i++) {
         if (nInRow > 3) {
-            if (current === 1) {
-                p1Score = p1Score + 1;
-                window.alert("Player 1 won!!");
+            if (current === 1) {               
+                return 1;
             }
-            else {
-                p2Score = p2Score + 1;
-                window.alert("Player 2 won!!");
+            if (current === 2) {
+                return 2;
             }
-            locked = true;
-            updateScore();
-            return;
         }
 
         if (!exceedsLimitations(xPos, yPos)) {
-            if (gameMap[yPos][xPos] === current && current !== 0) {
+            if (map[yPos][xPos] === current && current !== 0) {
                 nInRow++;
             }
             else {
-                if (gameMap[yPos][xPos] != 0)
+                if (map[yPos][xPos] != 0)
                     nInRow = 1;
                 else
                     nInRow = 0;
 
-                current = gameMap[yPos][xPos];
+                current = map[yPos][xPos];
             }
         } else
             nInRow = 0;
@@ -84,7 +86,7 @@ function checkVector(row, col, xDir, yDir) {
         xPos = updatePosition(xPos, xDir);
         yPos = updatePosition(yPos, yDir);
     }
-
+    return 0;
 }
 
 function updatePosition(pos, dir) {

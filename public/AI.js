@@ -12,26 +12,15 @@ function decide(map) {
     moveOptions = [];
 }
 
+    
 function randomCol(positions) {
-    var min, max;
-    min = positions[0].x;
-    max = positions[0].x;
-
-    for (var i = 0; i < positions.length; i++) { //get min and max values
-        if (positions[i].x < min)
-            min = positions[i];
-
-        if (positions[i].x > max)
-            max = positions[i].x;
-            
-    }
+    //select a random place to place the mark
 
     //randomise value
-    col = Math.floor(Math.random() * (max - min));
-    col = col + min;
-
-    return col;
+    col = Math.floor(Math.random() * positions.length);
+    return positions[col].x; //index
 }
+
 
 function loopPossibilities(positions) {
     //go through possible next moves and decide on one which has the most suggestions

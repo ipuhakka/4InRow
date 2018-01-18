@@ -26,3 +26,17 @@ function switchTurn() {
         document.getElementById('board').innerHTML = "P1 turn";
     }
 }
+
+function newGame() {
+    squares = [];
+    gameMap = [];
+
+    var myNode = document.getElementById("gameArea"); //empty div
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+    }
+    switchTurn();
+    locked = false;
+    createArea(); //start over
+
+}
