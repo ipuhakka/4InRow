@@ -35,7 +35,7 @@ function recursiveSimulation(cpyGameMap, step, position, parentNode) {
     /* 1.find available positions. simulate placing mark, checkresult, and when all paths from that node have been analyzed (or game has ended) delete it. */
     var positions = availablePositions(cpyGameMap);
 
-    cpyGameMap = simPlaceMark(position.x, cpyGameMap, step); 
+    cpyGameMap = simPlaceMark(position.x, cpyGameMap, step);
     var res = checkSimResult(cpyGameMap, position.x, position.y, step, parentNode);
     //return when STEPS <= step
     if (step === (STEPS - 1) || res !== 0) {
@@ -73,35 +73,11 @@ function findBestCol(xArray, positions) {
     //use minimum losses if we don't have any wins or we can lose with the players first mark after us. Fallback to max wins and then to best ratio of wins/losses
     var bestCol = -1; //return this if there is an error
 
-    var test = includesWinsAndLosses(xArray);
-    if ((test === 0 && includesRoundOneLoss(xArray)) || test === -1) { //we have to consider the loss
-        console.log("Minlosses");
-        bestCol = getMinLosses(xArray, positions);
-    }
-    else if (test === 1) //includes only wins, choose one with most wins
-    {
-        console.log("maxwins");
-        bestCol = getMaxWins(xArray);
-    }
-    else if (test === 0) {
-        console.log("MaxRatio");
-        bestCol = getMaxRatio(xArray);
-    } 
+    console.log("Minlosses");
+    bestCol = getMinLosses(xArray, positions);
+
 
     return bestCol;
-
-}
-
-function includesRoundOneLoss(xArray){
-    /*function checks if cpu can lose on the first player round*/
-    for (var i = 0; i < xArray.length; i++) {
-        if (xArray[i].step === 1) {
-            console.log("Includes loss");
-            return true;
-        }
-    }
-
-    return false;
 
 }
 
@@ -116,15 +92,15 @@ function appendArray(x, xArray, result, step) {
                 return xArray;
             }
             if (result === -1) {
-               xArray[i].losses = xArray[i].losses + 1;
+                xArray[i].losses = xArray[i].losses + 1;
 
-               if (xArray[i].step > step || isOdd(xArray[i].step))
-                   xArray[i].step = step;
+                if (xArray[i].step > step || isOdd(xArray[i].step))
+                    xArray[i].step = step;
 
-               return xArray;
-           }
+                return xArray;
+            }
 
-        }          
+        }
     }
     //not found, push new object
     var won = 0;
@@ -134,7 +110,7 @@ function appendArray(x, xArray, result, step) {
     else if (result === -1)
         lost = lost + 1;
 
-    var object = {parent: x, wins: won, losses: lost, step: step}
+    var object = { parent: x, wins: won, losses: lost, step: step }
     xArray.push(object);
 
     return xArray;
@@ -189,7 +165,6 @@ function checkSimResult(cpyBoard, x, y, step, parentX) {
 function simPlaceMark(col, cpyBoard, step) {
     //simulate putting a mark on desired location. 
     var row = findPlace(col, cpyBoard);
-    //console.log("Placing " + col + row);
 
     if (row !== -1) {
         if (isOdd(step)) {
@@ -220,7 +195,7 @@ function availablePositions(cpyGameMap) {
 
 function findPlace(column, cpyGameMap) {
     /*used in the simulation to find a place to put the mark*/
-    for (var i = (rows - 1); i >= 0; i--) {
+    for (var i = (rows - 1) ; i >= 0; i--) {
         if (!exceedsLimitations(column, i)) {
             if (cpyGameMap[i][column] === 0)
                 return i;
@@ -258,7 +233,7 @@ function includesWinsAndLosses(xArray) {
     includesWins = false;
     includesLosses = false;
 
-    for (var i = 0; i < xArray.length; i++){
+    for (var i = 0; i < xArray.length; i++) {
 
         if (xArray[i].wins > 0)
             includesWins = true;
@@ -308,39 +283,6 @@ function getMinLosses(xArray, positions) {
     }
 
     return minIndex;
-}
-
-function getMaxWins(xArray) {
-    //returns the column of max wins
-    var maxIndex = -1;
-    var maxWins = -1;
-
-    for (var i = 0; i < xArray.length; i++) {
-
-        if (xArray[i].wins > maxWins) {
-            maxWins = xArray[i].wins;
-            maxIndex = xArray[i].parent;
-        }
-    }
-
-    return maxIndex;
-}
-
-function getMaxRatio(xArray) {
-    var maxRatio = -1;
-    var bestCol = -1;
-
-    for (var i = 0; i < xArray.length; i++) {
-        if (xArray[i].wins > 0 && xArray[i].losses > 0) {
-            var ratio = xArray[i].wins / xArray[i].losses;
-            if (ratio > maxRatio) {
-                maxRatio = ratio;
-                bestCol = xArray[i].parent;
-            }
-        }
-    }
-
-    return bestCol;
 }
 
 function place(col) {
