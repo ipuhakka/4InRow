@@ -1,5 +1,5 @@
 // JavaScript source code for AI that simulates the score to find out which position is optimal.
-//It works by recursing the desired amount of steps, and everytime a win or loss board is found, it is logged to array with parentNode and current step.
+//Defensive AI works by choosing the position which provides least losses.
 /*xArray = {parent, wins, losses, step}*/
 /*array = {x, round, result}*/
 const STEPS = 4;
