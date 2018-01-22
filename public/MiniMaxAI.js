@@ -1,9 +1,6 @@
-// JavaScript source code for AI that simulates the score to find out which position is optimal.
-//Defensive AI works by choosing the position which provides least losses.
-//now works, next update heuristics for choosing right column.
-/*xArray = {parent, wins, losses, step}*/
-/*array = {x, round, result}*/
-const STEPS = 5;
+// JavaScript source code for AI that simulates the score to find out which position is optimal. Scoring: -1 -Opponent wins, 0: Game is still going, 1: CPU wins
+//If game allows (not too many possible combinations) it can be used optimally, which means going back to end of the game. MiniMax selects the best possible move
+//assuming that opponent plays perfectly. To make the AI feel more real we randomise the chosen column if all possible moves have the same value.
 
 function decide(gameMap) {
 
@@ -11,15 +8,18 @@ function decide(gameMap) {
     var col = -1;
     var t0 = performance.now();
     var positions = availablePositions(gameMap);
+    var STEPS = (columns * rows) - mapLength(gameMap); //if the game has 
+
+    if (STEPS > 8) //limit the steps so that the game is not too slow
+        STEPS = 8;
+
+    console.log("Steps: " + STEPS);
 
     for (var i = 0; i < positions.length; i++) {
         var cpyGameMap = copyGameMap(gameMap);
-        results = recursiveSimulation(cpyGameMap, 0, positions[i], results);
+        results = recursiveSimulation(cpyGameMap, 0, positions[i], results, STEPS);
 
         removeSimMark(positions[i].x, positions[i].y, cpyGameMap);
-
-        if (results[results.length - 1] === 0)
-            console.log("0 at " + positions[i].x);
 
         if (results[results.length - 1] === 1) {//optimal result found
             console.log("Sure win at + " + positions[i].x);
@@ -33,29 +33,29 @@ function decide(gameMap) {
 
     var index = maxIndex(results);
 
+    if (allEqual(results))
+        index = randomCol(positions);
+
     place(positions[index].x); //place position with the index of max value
 }
 
-function recursiveSimulation(cpyGameMap, step, position, array) {
+function recursiveSimulation(cpyGameMap, step, position, array, STEPS) {
     /* This recursive function implements the minimax algorithm. It goes to maximum depth (1. game has ended. 2. target depth has been reached)
     and pushes the result there to the parameter array and returns it. For every step we check if the result is optimal (then return the optimal result
-    back up another level) or if it's 0 then we check the next possible move for this step. */
+    back up another level) or if it's 0 then we check the next possible move for this step. In each node we push the optimal value to the array of the
+    ancestor node.*/
     var resArray = [];
-    //console.log("Step " + step);
     var map = cpyGameMap;
     cpyGameMap = simPlaceMark(position.x, position.y, cpyGameMap, step);
 
     var res = checkSimResult(cpyGameMap, position.x, position.y);
 
     if (res !== 0 || step === (STEPS - 1)) {  //push to array and return it
-        /*if (res !== 0)
-            printRowByRow(cpyGameMap); */
 
         if (res === 999) //game ended in draw
             res = 0;
 
         array.push(res);
-        //console.log("Chose " + res + " at step " + step);
         return array;
     }
 
@@ -63,36 +63,28 @@ function recursiveSimulation(cpyGameMap, step, position, array) {
     var positions = availablePositions(cpyGameMap);
 
     for (var i = 0; i < positions.length; i++) {
-        resArray = recursiveSimulation(cpyGameMap, step, positions[i], resArray);
+        resArray = recursiveSimulation(cpyGameMap, step, positions[i], resArray, STEPS);
 
         cpyGameMap = removeSimMark(positions[i].x, positions[i].y, cpyGameMap);
         if (resArray[resArray.length - 1] === -1 && isOdd(step)) //minimizer has the optimal result, return
         {
             array.push(-1);
-            //console.log("Certain loss Step " + step + ' ' + JSON.stringify(array));
-            //console.log("Chose " + res + " at step " + step);
             return array;
         }
 
         if (resArray[resArray.length - 1] === 1 && !isOdd(step)) //maximizer has the optimal result, return
         {
             array.push(1);
-            //console.log("certain win Step " + step + ' ' + JSON.stringify(array));
-            //console.log("Chose " + res + " at step " + step);
             return array;
         } 
     }
 
-    //when we get here we return optimal value of resArray
+    //when we get here we push the optimal value of resArray to the array of the upper level node
     if (isOdd(step)) { //minimizer
         array.push(minValue(resArray));
-       /* if (step < 3)
-            console.log("Chose " + minValue(resArray) + " at step " + step + " out of " + JSON.stringify(resArray));*/
     }
     else { //maximizer
         array.push(maxValue(resArray));
-        /*if (step < 3)
-            console.log("Chose " + maxValue(resArray) + " at step " + step + " out of " + JSON.stringify(resArray));*/
     }
     return array; //on this level nothing happened
 }
@@ -137,8 +129,19 @@ function maxValue(array) {
     return max;
 }
 
+function allEqual(array) {
+    //returns false if array contains value different from others
+    var value = array[0];
+
+    for (var i = 1; i < array.length; i++) {
+        if (array[i] !== value)
+            return false;
+    }
+
+    return true;
+}
+
 function removeSimMark(x, y , cpyBoard) {
-    //console.log("Removing " + x + y);
     cpyBoard[y][x] = 0;
     return cpyBoard;
 }
@@ -153,13 +156,9 @@ function checkSimResult(cpyBoard, x, y) {
     results.push(checkVector(y, x, 0, 1, cpyBoard));
 
     if (results.includes(1)) {
-        //console.log("Lost");
-        //printRowByRow(cpyBoard);
         return -1; //losing
     }
     else if (results.includes(2)) {
-        //console.log("Win");
-        //printRowByRow(cpyBoard);
         return 1; //winning
     }
 
@@ -172,14 +171,12 @@ function checkSimResult(cpyBoard, x, y) {
 function simPlaceMark(col, row, cpyBoard, step) {
     //simulate putting a mark on desired location. 
 
-        //console.log("Placing " + col + row);
-        if (isOdd(step)) {
-            cpyBoard[row][col] = 1;
-        }
-        else {
-            cpyBoard[row][col] = 2;
-        }
-
+    if (isOdd(step)) {
+        cpyBoard[row][col] = 1;
+    }
+    else {
+        cpyBoard[row][col] = 2;
+    }
 
     return cpyBoard;
 }
@@ -253,7 +250,14 @@ function isIllegalMove(x, y) {
     return false;
 }
 
-/*debugging help*/
+function randomCol(positions) {
+    //select a random place to place the mark
+    console.log("Random");
+    col = Math.floor(Math.random() * positions.length);
+    return positions[col].x; //index
+}
+
+/*debugging help below*/
 
 function printRowByRow(board) {
     console.log("Board: ");
