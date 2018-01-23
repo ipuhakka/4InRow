@@ -87,3 +87,56 @@ function updateScore(result) {
     if (p2Score < 10)
         document.getElementById('p2Img').src = 'img/' + p2Score + '.png';
 }
+
+function switchTurn() {
+    if (player1Turn) {
+        player1Turn = false;
+        if (cpu)
+            document.getElementById('board').innerHTML = "CPU turn";
+        else 
+            document.getElementById('board').innerHTML = "P2 turn";
+    }
+    else {
+        player1Turn = true;
+        document.getElementById('board').innerHTML = "P1 turn";
+    }
+}
+
+function newGame() {
+    squares = [];
+    gameMap = [];
+
+    var myNode = document.getElementById("gameArea"); //empty div
+    while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+    }
+    switchTurn();
+    locked = false;
+    createArea(); //start over
+
+    if (!player1Turn && cpu)
+        decide(gameMap);
+}
+
+function clickedSquare(button) {
+    if (locked)
+        return;
+
+    if (!player1Turn && cpu)
+        return;
+
+    var btn = document.getElementById(button);
+
+    var col = findColumn(button);
+    var row = findRow(col);
+
+    if (row !== -1) {
+        markPress(col, row);
+        if (!locked && cpu) {
+            decide(gameMap);
+        }
+    }
+    else
+        console.log("Illegal move!");
+
+}

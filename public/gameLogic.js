@@ -60,7 +60,7 @@ function checkVector(row, col, xDir, yDir, map) {
     //check for exceeding the limitations of the map
     for (var i = 0; i < 9; i++) {
         if (nInRow > 3) {
-            if (current === 1) {               
+            if (current === 1) {
                 return 1;
             }
             if (current === 2) {
@@ -87,7 +87,47 @@ function checkVector(row, col, xDir, yDir, map) {
         yPos = updatePosition(yPos, yDir);
     }
     return 0;
+} 
+/*
+function checkVector(row, col, xDir, yDir, map) {
+    //xDir and yDir describe the incline through every step: 0 means no elevation, 1 means up and -1 means down
+    var xPos, yPos;
+    var vector = [];
+
+    //init starting positions 
+    xPos = initStartPositions(col, xDir);
+    yPos = initStartPositions(row, yDir);
+
+    //check for exceeding the limitations of the map
+    for (var i = 0; i < 9; i++) {
+
+        if (!exceedsLimitations(xPos, yPos))
+            vector.push(map[yPos][xPos]);
+
+        //update position      
+        xPos = updatePosition(xPos, xDir);
+        yPos = updatePosition(yPos, yDir);
+
+        var score = buildVector(vector);
+
+        if (score !== 0)
+            return score;
+    }
+
+    return 0;
 }
+
+function buildVector(vector) {
+    var p1Win = JSON.stringify(vector).indexOf("1,1,1,1");
+    var p2Win = JSON.stringify(vector).indexOf("2,2,2,2");
+
+    if (p1Win !== -1)
+        return 1;
+    if (p2Win !== -1)
+        return 2;
+
+    return 0;
+} */
 
 function updatePosition(pos, dir) {
     //gets us the next point of the vector
@@ -100,7 +140,7 @@ function updatePosition(pos, dir) {
     if (dir === -1) {
         return (pos - 1);
     }
-}
+} 
 
 function exceedsLimitations(xPos, yPos) {
     //check for exceeding the limitations of the map

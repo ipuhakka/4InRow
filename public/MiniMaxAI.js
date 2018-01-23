@@ -10,8 +10,8 @@ function decide(gameMap) {
     var positions = availablePositions(gameMap);
     var STEPS = (columns * rows) - mapLength(gameMap); //if the game has 
 
-    if (STEPS > 8) //limit the steps so that the game is not too slow
-        STEPS = 8;
+    if (STEPS > 6) //limit the steps so that the game is not too slow
+        STEPS = 6;
 
     console.log("Steps: " + STEPS);
 
@@ -22,7 +22,7 @@ function decide(gameMap) {
         removeSimMark(positions[i].x, positions[i].y, cpyGameMap);
 
         if (results[results.length - 1] === 1) {//optimal result found
-            console.log("Sure win at + " + positions[i].x);
+            console.log("Sure win at " + positions[i].x);
             break;
         }
         
@@ -33,8 +33,10 @@ function decide(gameMap) {
 
     var index = maxIndex(results);
 
-    if (allEqual(results))
-        index = randomCol(positions);
+    if (allEqual(results)) //if it has no effect on the outcome we randomise 
+        index = randomCol(positions); 
+
+    console.log("index was " + index);
 
     place(positions[index].x); //place position with the index of max value
 }
@@ -130,8 +132,11 @@ function maxValue(array) {
 }
 
 function allEqual(array) {
-    //returns false if array contains value different from others
+    //returns false if array contains value different from others and array is of more than length 1
     var value = array[0];
+
+    if (array.length < 2)
+        return false;
 
     for (var i = 1; i < array.length; i++) {
         if (array[i] !== value)
@@ -254,7 +259,8 @@ function randomCol(positions) {
     //select a random place to place the mark
     console.log("Random");
     col = Math.floor(Math.random() * positions.length);
-    return positions[col].x; //index
+    //console.log(col + " from " + JSON.stringify(positions));
+    return col; //index
 }
 
 /*debugging help below*/
