@@ -138,5 +138,4 @@ function clickedSquare(button) {
     }
     else
         console.log("Illegal move!");
-
 }

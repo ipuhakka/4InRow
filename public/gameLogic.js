@@ -27,7 +27,7 @@ function checkResult(row, col) {
         updateScore(2);
 
     //check for draw
-    if (boardIsFull()) {
+    if (boardIsFull() && !results.includes(1) && !results.includes(2)) {
         locked = true;
         window.alert("draw");
     }

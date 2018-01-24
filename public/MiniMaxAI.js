@@ -1,6 +1,7 @@
 // JavaScript source code for AI that simulates the score to find out which position is optimal. Scoring: -1 -Opponent wins, 0: Game is still going, 1: CPU wins
 //If game allows (not too many possible combinations) it can be used optimally, which means going back to end of the game. MiniMax selects the best possible move
 //assuming that opponent plays perfectly. To make the AI feel more real we randomise the chosen column if all possible moves have the same value.
+const MAXSTEPS = 6;
 
 function decide(gameMap) {
 
@@ -10,8 +11,8 @@ function decide(gameMap) {
     var positions = availablePositions(gameMap);
     var STEPS = (columns * rows) - mapLength(gameMap); //if the game has 
 
-    if (STEPS > 6) //limit the steps so that the game is not too slow
-        STEPS = 6;
+    if (STEPS > MAXSTEPS) //limit the steps so that the game is not too slow
+        STEPS = MAXSTEPS;
 
     console.log("Steps: " + STEPS);
 
@@ -21,7 +22,7 @@ function decide(gameMap) {
 
         removeSimMark(positions[i].x, positions[i].y, cpyGameMap);
 
-        if (results[results.length - 1] === 1) {//optimal result found
+        if (results[results.length - 1] === 10) {//optimal result found
             console.log("Sure win at " + positions[i].x);
             break;
         }
@@ -33,8 +34,8 @@ function decide(gameMap) {
 
     var index = maxIndex(results);
 
-    if (allEqual(results)) //if it has no effect on the outcome we randomise 
-        index = randomCol(positions); 
+    if (canbeRandomized(results)) //if it has no effect on the outcome we take the centerMost column
+        index = centerCol(positions, results); 
 
     console.log("index was " + index);
 
@@ -57,7 +58,7 @@ function recursiveSimulation(cpyGameMap, step, position, array, STEPS) {
         if (res === 999) //game ended in draw
             res = 0;
 
-        array.push(res);
+        array.push(res * (10 - step));
         return array;
     }
 
@@ -70,13 +71,13 @@ function recursiveSimulation(cpyGameMap, step, position, array, STEPS) {
         cpyGameMap = removeSimMark(positions[i].x, positions[i].y, cpyGameMap);
         if (resArray[resArray.length - 1] === -1 && isOdd(step)) //minimizer has the optimal result, return
         {
-            array.push(-1);
+            array.push(-1 * (10 - step));
             return array;
         }
 
         if (resArray[resArray.length - 1] === 1 && !isOdd(step)) //maximizer has the optimal result, return
         {
-            array.push(1);
+            array.push(1 * (10 - step));
             return array;
         } 
     }
@@ -131,19 +132,24 @@ function maxValue(array) {
     return max;
 }
 
-function allEqual(array) {
-    //returns false if array contains value different from others and array is of more than length 1
-    var value = array[0];
+function canbeRandomized(array) {
+    //a column can be randomised when either of the conditions are met: 1. All possibilities offer the same result;
+    //2. There are more than one column with the same max.result
+    var value = maxValue(array);
+    var count = 0;
 
     if (array.length < 2)
         return false;
 
     for (var i = 1; i < array.length; i++) {
-        if (array[i] !== value)
-            return false;
-    }
+        if (array[i] === value)
+            count = count + 1;
 
-    return true;
+    }
+    if (count > 1) //if there is more than one max value we can randomise from them
+        return true;
+    else
+        return false;
 }
 
 function removeSimMark(x, y , cpyBoard) {
@@ -255,10 +261,20 @@ function isIllegalMove(x, y) {
     return false;
 }
 
-function randomCol(positions) {
-    //select a random place to place the mark
-    console.log("Random");
-    col = Math.floor(Math.random() * positions.length);
+function centerCol(positions, results) {
+    //if it doesn't matter where we play we should play as center as possible
+    //Find max value, create array of their indexes, randomise an index, and return the index of that position in the original positions list
+    var maxVal = maxValue(results);
+    var indexes = []; //contains all the indexes of positions with max value, and their index in positions array
+
+    for (var i = 0; i < results.length; i++) {
+        if (results[i] == maxVal) {
+            indexes.push(i);
+        }
+    }
+
+    var index = Math.floor(indexes.length / 2); //get the index of middle possibility
+    var col = indexes[index];
     //console.log(col + " from " + JSON.stringify(positions));
     return col; //index
 }
