@@ -9,7 +9,7 @@ function decide(gameMap) {
     var col = -1;
     var t0 = performance.now();
     var positions = availablePositions(gameMap);
-    var STEPS = (columns * rows) - mapLength(gameMap); //if the game has 
+    var STEPS = (columns * rows) - mapLength(gameMap); 
 
     if (STEPS > MAXSTEPS) //limit the steps so that the game is not too slow
         STEPS = MAXSTEPS;
@@ -32,12 +32,7 @@ function decide(gameMap) {
     console.log("took " + (t1 - t0) + " milliseconds.");
     console.log("Step 0: " + JSON.stringify(results));
 
-    var index = maxIndex(results);
-
-    if (canbeRandomized(results)) //if it has no effect on the outcome we take the centerMost column
-        index = centerCol(positions, results); 
-
-    console.log("index was " + index);
+    var index = chooseColumn(positions, results); //choose the column to play
 
     place(positions[index].x); //place position with the index of max value
 }
@@ -132,31 +127,6 @@ function maxValue(array) {
     return max;
 }
 
-function canbeRandomized(array) {
-    //a column can be randomised when either of the conditions are met: 1. All possibilities offer the same result;
-    //2. There are more than one column with the same max.result
-    var value = maxValue(array);
-    var count = 0;
-
-    if (array.length < 2)
-        return false;
-
-    for (var i = 1; i < array.length; i++) {
-        if (array[i] === value)
-            count = count + 1;
-
-    }
-    if (count > 1) //if there is more than one max value we can randomise from them
-        return true;
-    else
-        return false;
-}
-
-function removeSimMark(x, y , cpyBoard) {
-    cpyBoard[y][x] = 0;
-    return cpyBoard;
-}
-
 function checkSimResult(cpyBoard, x, y) {
     /* function returns other than 0 if the game is over, so we know to stop recursion in the right place.*/
     var results = [];
@@ -189,6 +159,11 @@ function simPlaceMark(col, row, cpyBoard, step) {
         cpyBoard[row][col] = 2;
     }
 
+    return cpyBoard;
+}
+
+function removeSimMark(x, y, cpyBoard) {
+    cpyBoard[y][x] = 0;
     return cpyBoard;
 }
 
@@ -243,25 +218,11 @@ function place(col) {
 
     var row = findRow(col);
 
-    if (row !== -1 && !isIllegalMove(col, row))
-        markPress(col, row);
-    else {
-        console.log("Illegal move! Tried to play " + col + ' ' + row);
-        decide();
-    }
+    markPress(col, row);
 
 }
 
-function isIllegalMove(x, y) {
-
-    if (exceedsLimitations(x, y)) {
-        return true;
-    }
-
-    return false;
-}
-
-function centerCol(positions, results) {
+function chooseColumn(positions, results) {
     //if it doesn't matter where we play we should play as center as possible
     //Find max value, create array of their indexes, randomise an index, and return the index of that position in the original positions list
     var maxVal = maxValue(results);
@@ -273,11 +234,14 @@ function centerCol(positions, results) {
         }
     }
 
+    if (indexes.length === 1)
+        return indexes[0];
+
     var index = Math.floor(indexes.length / 2); //get the index of middle possibility
     var col = indexes[index];
-    //console.log(col + " from " + JSON.stringify(positions));
     return col; //index
 }
+
 
 /*debugging help below*/
 
