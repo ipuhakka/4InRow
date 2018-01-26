@@ -88,7 +88,7 @@ function updateScore(result) {
         document.getElementById('p2Img').src = 'img/' + p2Score + '.png';
 }
 
-function switchTurn() {
+function switchTurn() { //function shifts turns in game
     if (player1Turn) {
         player1Turn = false;
         if (cpu)
@@ -102,6 +102,23 @@ function switchTurn() {
     }
 }
 
+function switchStart(){ //turn starting shift between games
+
+    if (p1Start) {
+        p1Start = false;
+        player1Turn = false;
+        if (cpu)
+            document.getElementById('board').innerHTML = "CPU turn";
+        else 
+            document.getElementById('board').innerHTML = "P2 turn";
+    }
+    else {
+        p1Start = true;
+        player1Turn = true;
+        document.getElementById('board').innerHTML = "P1 turn";
+    }
+}
+
 function newGame() {
     squares = [];
     gameMap = [];
@@ -110,7 +127,7 @@ function newGame() {
     while (myNode.firstChild) {
         myNode.removeChild(myNode.firstChild);
     }
-    switchTurn();
+    switchStart();
     locked = false;
     createArea(); //start over
 
