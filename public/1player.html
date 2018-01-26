@@ -3,7 +3,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>4 In a Row 1P</title>
 </head>
 <body>
     <div id="gameArea"></div>
@@ -12,7 +12,12 @@
     </div>
     <img src="img/0.png" id="p1Img" />
     <img src="img/0.png" id="p2Img" />
-    <button class="menuB" onclick="newGame()">New Game</button>
+    <form class="form">
+        AI search depth: <br>
+        <input type="text" id="depth" value="6">
+        (over 7 not recommended)<br>
+        <button onclick="newGame();return false">New game</button> 
+    </form>
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <script src="common.js"></script>
     <script src="gameLogic.js"></script>
@@ -27,6 +32,7 @@
         var player1Turn = true;
         var locked = false;
         var cpu = true;
+        var MAXSTEPS = 6;
 
         createArea();
     </script>

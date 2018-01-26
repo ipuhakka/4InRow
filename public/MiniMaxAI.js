@@ -1,7 +1,6 @@
 // JavaScript source code for AI that simulates the score to find out which position is optimal. Scoring: -1 -Opponent wins, 0: Game is still going, 1: CPU wins
 //If game allows (not too many possible combinations) it can be used optimally, which means going back to end of the game. MiniMax selects the best possible move
 //assuming that opponent plays perfectly. To make the AI feel more real we randomise the chosen column if all possible moves have the same value.
-const MAXSTEPS = 6;
 
 function decide(gameMap) {
 

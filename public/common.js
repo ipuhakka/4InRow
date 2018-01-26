@@ -114,15 +114,23 @@ function newGame() {
     locked = false;
     createArea(); //start over
 
+    if (cpu){//define AIDepth
+        if (isNumber(document.getElementById('depth').value))
+            MAXSTEPS = document.getElementById('depth').value;
+        else {//default
+            MAXSTEPS = 6;
+            alert("Using default value 6");
+            document.getElementById('depth').value = 6;
+        }
+    }
+
     if (!player1Turn && cpu)
-        decide(gameMap);
+        delayAI();
 }
 
-function clickedSquare(button) {
-    if (locked)
-        return;
+function clickedSquare(button) { /*click function that also control the structure of the game*/
 
-    if (!player1Turn && cpu)
+    if ((!player1Turn && cpu) || locked)
         return;
 
     var btn = document.getElementById(button);
@@ -133,9 +141,21 @@ function clickedSquare(button) {
     if (row !== -1) {
         markPress(col, row);
         if (!locked && cpu) {
-            decide(gameMap);
-        }
+            delayAI();
+        }  
     }
     else
         console.log("Illegal move!");
 }
+
+function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function delayAI(){
+    //this function is used to create a slight delay for AI so we get the user interface in order
+    setTimeout(function () { //we use a small timeout to get the gui change before we go to think the cpu's move
+        decide(gameMap);
+    }, 1);
+}
+
