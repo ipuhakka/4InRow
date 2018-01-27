@@ -63,13 +63,13 @@ function recursiveSimulation(cpyGameMap, step, position, array, STEPS) {
         resArray = recursiveSimulation(cpyGameMap, step, positions[i], resArray, STEPS);
 
         cpyGameMap = removeSimMark(positions[i].x, positions[i].y, cpyGameMap);
-        if (resArray[resArray.length - 1] === -1 && isOdd(step)) //minimizer has the optimal result, return
+        if (resArray[resArray.length - 1] === (-1 * (10 - step)) && isOdd(step)) //minimizer has the optimal result, return
         {
             array.push(-1 * (10 - step));
             return array;
         }
 
-        if (resArray[resArray.length - 1] === 1 && !isOdd(step)) //maximizer has the optimal result, return
+        if (resArray[resArray.length - 1] === (1 * (10 - step)) && !isOdd(step)) //maximizer has the optimal result, return
         {
             array.push(1 * (10 - step));
             return array;

@@ -60,7 +60,9 @@ function markPress(col, row) {
         gameMap[row][col] = 2;
         squares[row][col].style.backgroundColor = 'red';
     }
-    checkResult(row, col);
+    setTimeout(function () { //we use a small timeout to get the gui change before checking the result
+        checkResult(row, col);
+    }, 10);
     switchTurn();
 }
 
