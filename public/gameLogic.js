@@ -29,8 +29,7 @@ function checkResult(row, col) {
 
     //check for draw
     if (boardIsFull() && !results.includes(1) && !results.includes(2)) {
-        locked = true;
-        window.alert("draw");
+        updateScore(999);
     }
 }
 
@@ -45,7 +44,6 @@ function boardIsFull() {
     }
 
     return true;
-
 }
 
 function checkVector(row, col, xDir, yDir, map) {

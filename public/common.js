@@ -60,13 +60,13 @@ function markPress(col, row) {
         gameMap[row][col] = 2;
         squares[row][col].style.backgroundColor = 'red';
     }
-    setTimeout(function () { //we use a small timeout to get the gui change before checking the result
-        checkResult(row, col);
-    }, 10);
+    delayResult(row, col);
     switchTurn();
 }
 
 function updateScore(result) {
+
+    locked = true;
 
     if (result === 1) {
         p1Score = p1Score + 1;
@@ -80,8 +80,10 @@ function updateScore(result) {
         else
             window.alert("Player 2 won!!");
     }
-
-    locked = true;
+    else if (result === 999)
+    {
+        alert("Tie game");
+    }
 
     if (p1Score < 10)
         document.getElementById('p1Img').src = 'img/' + p1Score + '.png';
@@ -171,8 +173,14 @@ function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
-function delayAI(){
-    //this function is used to create a slight delay for AI so we get the user interface in order
+function delayResult(row, col){
+    //this function is used to create a slight delay for AI so we get the user interface ready before checking the result
+    setTimeout(function () { 
+        checkResult(row, col);
+    }, 1);
+}
+
+function delayAI() {
     setTimeout(function () { //we use a small timeout to get the gui change before we go to think the cpu's move
         decide(gameMap);
     }, 1);

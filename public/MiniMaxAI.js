@@ -4,9 +4,12 @@
 
 function decide(gameMap) {
 
+    if (locked) {
+        return;
+    }
+
     var results = [];
     var col = -1;
-    var t0 = performance.now();
     var positions = availablePositions(gameMap);
     var STEPS = (columns * rows) - mapLength(gameMap); 
 
@@ -15,6 +18,7 @@ function decide(gameMap) {
 
     console.log("Steps: " + STEPS);
 
+    var t0 = performance.now();
     for (var i = 0; i < positions.length; i++) {
         var cpyGameMap = copyGameMap(gameMap);
         results = recursiveSimulation(cpyGameMap, 0, positions[i], results, STEPS);
@@ -212,8 +216,6 @@ function isOdd(num) { return (num % 2) == 1; }
 
 function place(col) {
     //place the actual mark
-    if (locked)
-        return;
 
     var row = findRow(col);
 
