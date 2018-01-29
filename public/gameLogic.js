@@ -14,7 +14,7 @@ function initStartPositions(cell, dir) {
 }
 
 function checkResult(row, col) {
-    /* x && y : if -1 then go down, if 0 keep the same and if 1 then go up*/
+    /* x && y : if -1 then go down, if 0 keep the same and if 1 then go up.*/ 
     var results = [];
 
     results.push(checkVector(row, col, 1, -1, gameMap));
@@ -22,15 +22,18 @@ function checkResult(row, col) {
     results.push(checkVector(row, col, 1, 1, gameMap));
     results.push(checkVector(row, col, 0, 1, gameMap));
 
-    if (results.includes(1))
+    if (results.includes(1)){
         updateScore(1);
-    else if (results.includes(2))
+		}
+    else if (results.includes(2)){
         updateScore(2);
+	}
 
     //check for draw
     if (boardIsFull() && !results.includes(1) && !results.includes(2)) {
         updateScore(999);
     }
+	
 }
 
 function boardIsFull() {

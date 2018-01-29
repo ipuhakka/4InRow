@@ -183,6 +183,6 @@ function delayResult(row, col){
 function delayAI() {
     setTimeout(function () { //we use a small timeout to get the gui change before we go to think the cpu's move
         decide(gameMap);
-    }, 1);
+    }, 10);
 }
 
