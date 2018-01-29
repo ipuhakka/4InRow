@@ -25,10 +25,29 @@
 .board{
     font-size:20pt;
     font:bold;
+	width:285px;
 }
 
 .form{
     margin-top:10px;
 	margin-right:10px;
 }
+
+.scoreBoard{	
+	background:#722f37;
+	border: 1px solid black;
+	width:285px;
+}
+
+.score{
+	background:black;
+	border: 1px solid black;
+	width:25%;
+	text-align:right;
+	color:red;
+}
+
+
+
+
 

@@ -2,6 +2,8 @@
 //If game allows (not too many possible combinations) it can be used optimally, which means going back to end of the game. MiniMax selects the best possible move
 //assuming that opponent plays perfectly. To make the AI feel more real we randomise the chosen column if all possible moves have the same value.
 
+const SCORE = 100; //score  is used to calculate a value for a board configuration relative to the move at hand (further move gets a smaller score). It needs to be higher than the number of steps simulation uses
+
 function decide(gameMap) {
 
     if (locked) {
@@ -16,8 +18,6 @@ function decide(gameMap) {
     if (STEPS > MAXSTEPS) //limit the steps so that the game is not too slow
         STEPS = MAXSTEPS;
 
-    console.log("Steps: " + STEPS);
-
     var t0 = performance.now();
     for (var i = 0; i < positions.length; i++) {
         var cpyGameMap = copyGameMap(gameMap);
@@ -25,7 +25,7 @@ function decide(gameMap) {
 
         removeSimMark(positions[i].x, positions[i].y, cpyGameMap);
 
-        if (results[results.length - 1] === 10) {//optimal result found
+        if (results[results.length - 1] === SCORE) {//optimal result found
             console.log("Sure win at " + positions[i].x);
             break;
         }
@@ -56,7 +56,7 @@ function recursiveSimulation(cpyGameMap, step, position, array, STEPS) {
         if (res === 999) //game ended in draw
             res = 0;
 
-        array.push(res * (10 - step));
+        array.push(res * (SCORE - step));
         return array;
     }
 
@@ -67,15 +67,15 @@ function recursiveSimulation(cpyGameMap, step, position, array, STEPS) {
         resArray = recursiveSimulation(cpyGameMap, step, positions[i], resArray, STEPS);
 
         cpyGameMap = removeSimMark(positions[i].x, positions[i].y, cpyGameMap);
-        if (resArray[resArray.length - 1] === (-1 * (10 - step)) && isOdd(step)) //minimizer has the optimal result, return
+        if (resArray[resArray.length - 1] === (-1 * (SCORE - step)) && isOdd(step)) //minimizer has the optimal result, return
         {
-            array.push(-1 * (10 - step));
+            array.push(-1 * (SCORE - step));
             return array;
         }
 
-        if (resArray[resArray.length - 1] === (1 * (10 - step)) && !isOdd(step)) //maximizer has the optimal result, return
+        if (resArray[resArray.length - 1] === (1 * (SCORE - step)) && !isOdd(step)) //maximizer has the optimal result, return
         {
-            array.push(1 * (10 - step));
+            array.push(1 * (SCORE - step));
             return array;
         } 
     }
@@ -216,9 +216,12 @@ function isOdd(num) { return (num % 2) == 1; }
 
 function place(col) {
     //place the actual mark
-
+	if (locked) {
+		console.log("Not placed, game over");
+        return;
+    }
+	
     var row = findRow(col);
-
     markPress(col, row);
 
 }
@@ -243,17 +246,6 @@ function chooseColumn(positions, results) {
     return col; //index
 }
 
-
-/*debugging help below*/
-
-function printRowByRow(board) {
-    console.log("Board: ");
-    for (var i = 0; i < rows; i++) {
-        console.log(JSON.stringify(board[i]));
-    }
-
-}
-
 function mapLength(map) {
     /*helper function for debugging*/
     var count = 0;
@@ -266,4 +258,14 @@ function mapLength(map) {
 
     }
     return count;
+}
+
+/*debugging help below*/
+
+function printRowByRow(board) {
+    console.log("Board: ");
+    for (var i = 0; i < rows; i++) {
+        console.log(JSON.stringify(board[i]));
+    }
+
 }
