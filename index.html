@@ -3,12 +3,14 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title></title>
+    <title>4 in a row</title>
 </head>
+<link rel="stylesheet" type="text/css" href="public/styles.css" />
 <body>
-    <button onclick="multiplayer()">2 player game</button>
-    <button onclick="singlePlayer()">1 Player game</button>
-
+<div class=menuDiv>
+    <button class = "menuChild" onclick="multiplayer()">2 player game</button>
+    <button class = "menuChild" onclick="singlePlayer()">1 Player game</button>
+</div>
     <script>
         function multiplayer() {
             window.location.href = "public/2player.html";

@@ -6,13 +6,17 @@
     <title>4 in a row</title>
 </head>
 <body>
+<div class="content">
     <div id="gameArea"></div>
-    <div id="scoreBoard">
+    <div id="scoreBoard" class="board">
         <textarea readonly class="board" id="board">P1 turn</textarea>
-    </div>
+	</div>
+	<div class="board">
     <img src="img/0.png" id="p1Img"/>
     <img src="img/0.png" id="p2Img"/>
+	</div>
     <button class="menuB" onclick="newGame()">New Game</button>
+</div>
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <script src="common.js"></script>
     <script src="gameLogic.js"></script>

@@ -14,8 +14,8 @@ function createArea() {
             var element = document.createElement("Button");
             element.className = 'square';
             element.id = 'square' + i + '.' + j;
-            element.style.backgroundColor = 'gray';
-
+            element.style.backgroundColor = 'white';
+		
             element.addEventListener('click', function (event) {
                 clickedSquare(this.id);
             });
@@ -177,7 +177,7 @@ function delayResult(row, col){
     //this function is used to create a slight delay for AI so we get the user interface ready before checking the result
     setTimeout(function () { 
         checkResult(row, col);
-    }, 1);
+    }, 10);
 }
 
 function delayAI() {
