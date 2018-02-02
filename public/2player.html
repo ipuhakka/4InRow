@@ -9,21 +9,21 @@
 <div class="content">
     <div id="gameArea"></div>
     <div id="scoreBoard" >
-        <textarea readonly class="board" id="board">Player turn</textarea>
+        <textarea readonly class="board" id="board">P1 turn</textarea>
     </div>
 	<div class="scoreBoard">
 	<img src="img/0.png" id="p1Img" /><br>
     <img src="img/0.png" id="p2Img" />
 	</div>
-    <button class="menuB" onclick="newGame()">New Game</button>
+    <button style="margin-top:5px;cursor:pointer" class="menuB" onclick="newGame()">New Game</button>
 </div>
-    <link rel="stylesheet" type="text/css" href="styles.css" />
-    <script src="common.js"></script>
-    <script src="gameLogic.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/styles.css" />
+    <script src="src/common.js"></script>
+    <script src="src/gameLogic.js"></script>
     <script>
         var p1Score = 0;
         var p2Score = 0;
-        var columns = 10;
+        var columns = 7;
         var rows = 6;
         var squares = [];
         var gameMap = []; //0: not chosen. 1. Player 2.CPU/player 2
