@@ -39,12 +39,49 @@
 	width:285px;
 }
 
-.score{
-	background:black;
+
+.mobileScoreBoard{
+	background:#722f37;
 	border: 1px solid black;
-	width:25%;
-	text-align:right;
-	color:red;
+	width:100%;
+}
+
+.mobileContent{
+	width:99%;
+	height:100%;
+}
+
+.mobileGameArea{
+	border: 1px solid black;
+	width:100%;
+}
+
+.mobileBoard{
+	font-size:20pt;
+    font:bold;
+	width:100%;
+}
+
+.mobileButton{
+	width:100%;
+	height:30px;
+}
+
+.mobileSquare{
+	
+	border:2px black;
+	border-style:solid;
+    width:14%;
+    height:58px;
+    margin-right:2px;
+	
+}
+
+.mobileForm{
+	margin-top:10px;
+	margin-right:10px;
+	font-size:20pt;
+    font:bold;
 }
 
 

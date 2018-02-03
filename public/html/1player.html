@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <title>4 In a Row 1P</title>
 </head>
-<link rel="stylesheet" type="text/css" href="css/styles.css" />
+<link rel="stylesheet" type="text/css" href="../css/styles.css" />
 <body>
 <div class="content">
     <div id="gameArea"></div>
@@ -13,20 +13,20 @@
         <textarea readonly class="board" id="board">P1 turn</textarea>
     </div>
 	<div class="scoreBoard">
-	<img src="img/0.png" id="p1Img" /><br>
-    <img src="img/0.png" id="p2Img" />
+	<img src="../img/0.png" id="p1Img" /><br>
+    <img src="../img/0.png" id="p2Img" />
 	</div>
     <form class="form">
         AI search depth: <br>
         <input type="text" id="depth" value="6">
         (over 7 not recommended)<br>
-        <input style="margin-top:2px;cursor:pointer" type="image" src="img/help.png" onclick="window.open('Info.html', '_blank'); return false;" /><br />
+        <input style="margin-top:2px;cursor:pointer" type="image" src="../img/help.png" onclick="window.open('Info.html', '_blank'); return false;" /><br />
         <button style="margin-top:5px;cursor:pointer" onclick="newGame();return false">New game</button> 
     </form>
 </div>
-    <script src="src/common.js"></script>
-    <script src="src/gameLogic.js"></script>
-    <script src="src/MiniMaxAI.js"></script>
+    <script src="../src/common.js"></script>
+    <script src="../src/gameLogic.js"></script>
+    <script src="../src/MiniMaxAI.js"></script>
     <script>
         var p1Score = 0;
         var p2Score = 0;
