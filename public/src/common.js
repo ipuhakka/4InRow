@@ -1,4 +1,21 @@
 // JavaScript source code for 4 in a row common functions used by both games
+
+function isMobile() { 
+		
+			if( navigator.userAgent.match(/Android/i)
+				|| navigator.userAgent.match(/webOS/i)
+				|| navigator.userAgent.match(/iPhone/i)
+				|| navigator.userAgent.match(/iPad/i)
+				|| navigator.userAgent.match(/iPod/i)
+				|| navigator.userAgent.match(/BlackBerry/i)
+				|| navigator.userAgent.match(/Windows Phone/i)
+			)
+				return true;
+			
+			else 
+				return false;
+		}
+
 function createArea() {
     /*function creates a 6x8 area and registers each square to the game */
 
@@ -12,7 +29,12 @@ function createArea() {
         for (var j = 0; j < columns; j++) {
             //create a new item
             var element = document.createElement("Button");
-            element.className = 'square';
+			
+			if (isMobile())
+				element.className = 'mobileSquare';
+			else 
+				element.className = 'square';
+			
             element.id = 'square' + i + '.' + j;
             element.style.backgroundColor = 'white';
 		
@@ -86,10 +108,10 @@ function updateScore(result) {
     }
 
     if (p1Score < 10)
-        document.getElementById('p1Img').src = 'img/' + p1Score + '.png';
+        document.getElementById('p1Img').src = '../img/' + p1Score + '.png';
 
     if (p2Score < 10)
-        document.getElementById('p2Img').src = 'img/' + p2Score + '.png';
+        document.getElementById('p2Img').src = '../img/' + p2Score + '.png';
 }
 
 function switchTurn() { //function shifts turns in game

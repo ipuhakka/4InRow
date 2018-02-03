@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>4 In a Row 1P</title>
+</head>
+<link rel="stylesheet" type="text/css" href="../css/styles.css" />
+<body>
+<div class="mobileContent">
+    <div class="mobileGameArea" id="gameArea"></div>
+    <textarea readonly class="mobileBoard" id="board">P1 turn</textarea>
+	<div class="mobileScoreBoard">
+	<img src="../img/0.png" id="p1Img" /><br>
+    <img src="../img/0.png" id="p2Img" />
+	</div>
+    <form class="mobileForm">
+        AI search depth: <br>
+        <input style="width:60%"type="text" id="depth" value="6">
+        (over 7 not recommended)<br>
+        <input style="margin-top:2px;cursor:pointer" type="image" src="../img/help.png" onclick="window.open('Info.html', '_blank'); return false;" /><br />
+        <button class="mobileButton" style="margin-top:5px;cursor:pointer" onclick="newGame();return false">New game</button> 
+    </form>
+</div>
+    <script src="../src/common.js"></script>
+    <script src="../src/gameLogic.js"></script>
+    <script src="../src/MiniMaxAI.js"></script>
+    <script>
+        var p1Score = 0;
+        var p2Score = 0;
+        var columns = 7;
+        var rows = 6;
+        var squares = [];
+        var gameMap = []; //0: not chosen. 1. Player 2.CPU/player 2
+        var player1Turn = true;
+        var locked = false;
+        var cpu = true;
+        var MAXSTEPS = 6;
+        var p1Start = true;
+		
+        createArea();
+    </script>
+</body>
+</html>
