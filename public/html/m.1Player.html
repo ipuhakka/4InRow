@@ -2,23 +2,24 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>4 In a Row 1P</title>
+    <title>4 In a Row 1P Mobile</title>
 </head>
 <link rel="stylesheet" type="text/css" href="../css/styles.css" />
+<link rel="stylesheet" type="text/css" href="../css/mobileStyles.css" />
 <body>
 <div class="mobileContent">
-    <div class="mobileGameArea" id="gameArea"></div>
-    <textarea readonly class="mobileBoard" id="board">P1 turn</textarea>
-	<div class="mobileScoreBoard">
+    <div class="mobileGameArea mobileContent" id="gameArea"></div>
+    <textarea readonly class="mobileContent" id="board">P1 turn</textarea>
+	<div class="mobileScoreBoard mobileContent">
 	<img src="../img/0.png" id="p1Img" /><br>
     <img src="../img/0.png" id="p2Img" />
 	</div>
-    <form class="mobileForm">
+    <form class="form mobileContent">
         AI search depth: <br>
-        <input style="width:60%"type="text" id="depth" value="6">
+        <input style="width:60%; height:"type="text" id="depth" value="6">
         (over 7 not recommended)<br>
         <input style="margin-top:2px;cursor:pointer" type="image" src="../img/help.png" onclick="window.open('Info.html', '_blank'); return false;" /><br />
-        <button class="mobileButton" style="margin-top:5px;cursor:pointer" onclick="newGame();return false">New game</button> 
+        <button class="mobileButton mobileContent" style="margin-top:5px;cursor:pointer" onclick="newGame();return false">New game</button> 
     </form>
 </div>
     <script src="../src/common.js"></script>

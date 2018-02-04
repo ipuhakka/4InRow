@@ -1,0 +1,28 @@
+.mobileScoreBoard{
+	background:#722f37;
+	border: 1px solid black;
+}
+
+.mobileContent{
+	width:100%;
+	font-size:20pt;
+    font:bold;
+}
+
+.mobileGameArea{
+	border: 1px solid black;
+}
+
+.mobileButton{
+	height:100px;
+}
+
+.mobileSquare{
+	
+	border:2px black;
+	border-style:solid;
+    width:14%;
+    height:130px;
+    margin-right:2px;
+	
+}
