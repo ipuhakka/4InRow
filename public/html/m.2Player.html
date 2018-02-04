@@ -1,23 +1,21 @@
-﻿<!DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
-    <title>4 in a row 2P</title>
+    <title>4 in a row 2P mobile</title>
 </head>
 <body>
-<div class="content">
-    <div id="gameArea"></div>
-    <div id="scoreBoard" >
-        <textarea readonly class="board" id="board">P1 turn</textarea>
-    </div>
-	<div class="scoreBoard">
-	<img src="../img/0.png" id="p1Img" /><br>
-    <img src="../img/0.png" id="p2Img" />
-	</div>
-    <button style="margin-top:5px;cursor:pointer" class="menuB" onclick="newGame()">New Game</button>
-</div>
     <link rel="stylesheet" type="text/css" href="../css/styles.css" />
+	<link rel="stylesheet" type="text/css" href="../css/mobileStyles.css" />
+	<div class="mobileContent">
+		<div class="mobileGameArea mobileContent" id="gameArea"></div>
+		<textarea readonly class="mobileContent" id="board">P1 turn</textarea>
+		<div class="mobileScoreBoard mobileContent">
+		<img src="../img/0.png" id="p1Img" /><br>
+		<img src="../img/0.png" id="p2Img" />
+		</div>
+		<button class="mobileButton mobileContent" style="margin-top:5px;cursor:pointer" onclick="newGame()">New Game</button>
+	</div>
     <script src="../src/common.js"></script>
     <script src="../src/gameLogic.js"></script>
     <script>

@@ -48,7 +48,8 @@
 
 .mobileContent{
 	width:100%;
-	height:100%;
+	font-size:20pt;
+    font:bold;
 }
 
 .mobileGameArea{
@@ -63,7 +64,6 @@
 }
 
 .mobileButton{
-	width:100%;
 	height:100px;
 }
 
@@ -72,7 +72,7 @@
 	border:2px black;
 	border-style:solid;
     width:14%;
-    height:140px;
+    height:130px;
     margin-right:2px;
 	
 }
@@ -80,8 +80,6 @@
 .mobileForm{
 	margin-top:10px;
 	margin-right:10px;
-	font-size:20pt;
-    font:bold;
 }
 
 
